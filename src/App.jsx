@@ -23,9 +23,42 @@ const Item = (props)  =>{
   const [width, setWidth] = useState(80);
   const [height, setHeight] = useState(80);
   console.log(selected, props.id)
-
+    let style
+  if (selected){
+     style ={
+        padding: "1rem",
+        position: 'absolute',
+        backgroundImage: `url(${props.image})`,
+        position: 'absolute', 
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
+        backgroundPosition: 'fill',
+        maskImage: `url(${props.image})`,
+        maskMode: 'alpha',
+        maskPosition: 'center',
+        maskSize: 'cover',
+        zIndex: zIndex, 
+        border: '1px solid black'
+      }
+  }else{
+     style ={
+        padding: "1rem",
+        position: 'absolute',
+        backgroundImage: `url(${props.image})`,
+        position: 'absolute', 
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
+        backgroundPosition: 'fill',
+        maskImage: `url(${props.image})`,
+        maskMode: 'alpha',
+        maskPosition: 'center',
+        maskSize: 'cover',
+        zIndex: zIndex
+      }
+  } 
   const handleResize = (event, { size }) => {
     if(props.mode == 'resize'){
+      setUndraggable(true) 
       setWidth(size.width);
       setHeight(size.height);
 
@@ -43,27 +76,14 @@ const Item = (props)  =>{
   const sendDown = () =>{
     setZIndex(zIndex - 100)
   }
-  let style ={
-    padding: "1rem",
-    position: 'absolute',
-    backgroundImage: `url(${props.image})`,
-    position: 'absolute', 
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
-    backgroundPosition: 'fill',
-    maskImage: `url(${props.image})`,
-    maskMode: 'alpha',
-    maskPosition: 'center',
-    maskSize: 'cover',
-    zIndex: zIndex
-  }
+  
   const handleClick = () =>{
     if(selected && props.mode == 'select'){
       console.log('select Mode')
       setResizable(true)
       handleSelect()
     } else if (selected && props.mode == 'resize'){
-      setUndraggable(true) 
+    //   setUndraggable(true) 
       setResizable(false)
       handleResize()
     } else if (selected && props.mode == 'sendUp'){
@@ -83,7 +103,7 @@ const Item = (props)  =>{
   return(
     
     <Draggable disabled={undraggable}>
-      <ResizableBox  height={height}  onClick={()=>{handleClick()}} width={width}  draggableOpts={{ disabled: resizable }} onResize={handleResize} style={style} />
+      <ResizableBox  height={height} onResizeStart={() =>{setUndraggable(true)} } onResizeEnd={() => {setUndraggable(false)}} onClick={()=>{handleClick()}} width={width}  onResize={handleResize} style={style} />
     </Draggable>
 
   )
@@ -148,11 +168,10 @@ const  App = () => {
     return(
       <div>
         <ul>
-          <Button onClick={onSelect} variant="outlined">Select</Button>
-          <Button  onClick={onResize} variant="outlined">Resize</Button>
-          <Button onClick={onSendUp} variant="outlined" >Send Up</Button>
-          <Button onClick={onSendDown} variant="outlined">Send Down</Button>
-          <Button onClick={saveAsImage} variant="outlined">Save PNG</Button>
+          <Button onClick={onSelect} variant="outlined" style={{marginRight: '10px'}}>Select</Button>
+          <Button onClick={onSendUp} variant="outlined" style={{marginRight: '10px'}}>Send Up</Button>
+          <Button onClick={onSendDown} variant="outlined"style={{marginRight: '10px'}}>Send Down</Button>
+          <Button onClick={saveAsImage} variant="outlined" style={{marginRight: '10px'}}>Save PNG</Button>
         </ul>
       </div>
     )
