@@ -138,6 +138,12 @@ const  App = () => {
   const  Menu = () =>{
 
     function saveAsImage() {
+      const images = document.querySelectorAll('.canvas > div');
+      images.forEach(image => {
+        console.log(image)
+        image.style.border = "none";
+        image.querySelector('span').style.display = "none";
+      });
       const element = document.querySelector('.canvas');
       html2canvas(element, {
         backgroundColor: 'transparent'
