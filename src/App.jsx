@@ -71,10 +71,14 @@ const Item = (props)  =>{
     }
   }
   const sendUp = () =>{
-    setZIndex(zIndex + 100)
+    setZIndex(zIndex + 10)
   }
   const sendDown = () =>{
-    setZIndex(zIndex - 100)
+    if (zIndex >0){ 
+    setZIndex(zIndex - 10)}
+    else{
+      alert('Image is at the bottom')
+    }
   }
   
   const handleClick = () =>{
@@ -117,13 +121,13 @@ const  App = () => {
     {id: 'item1',
      key: 1,
      image: 'imageOne.png',
-     zIndex : 10,
+     zIndex : 100,
      selected: false
     },
     {id: 'item2',
      key: 2,
      image: 'imageTwo.png',
-     zIndex : 10,
+     zIndex : 100,
      selected: false
     }
     
